@@ -22,6 +22,7 @@ add_arg = functools.partial(add_arguments, argparser=parser)
 # yapf: disable
 add_arg('batch_size',        int,   1,          "Minibatch size.")
 add_arg('epoch',             int,   2,        "The number of epoched to be trained.")
+add_arg('batch',             int,   100,        ".")
 add_arg('output',            str,   "./output_0", "The directory the model and the test result to be saved to.")
 add_arg('init_model',        str,   None,       "The init model file of directory.")
 add_arg('save_checkpoints',  bool,  True,       "Whether to save checkpoints.")
@@ -29,6 +30,7 @@ add_arg('run_test',          bool,  True,       "Whether to run test.")
 add_arg('use_gpu',           bool,  True,       "Whether to use GPU to train.")
 add_arg('profile',           bool,  False,       "Whether to profile.")
 add_arg('run_ce',            bool,  False,       "Whether to run for model ce.")
+
 # yapf: enable
 
 
@@ -227,6 +229,9 @@ def train(args):
             losses[1].append(d_A_loss[0])
             sys.stdout.flush()
             batch_id += 1
+
+            if batch_id > args.batch:
+                return
 
         if args.run_test and not args.run_ce:
             test(epoch)
