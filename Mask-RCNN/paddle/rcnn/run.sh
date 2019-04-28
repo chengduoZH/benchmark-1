@@ -6,6 +6,7 @@ set -xe
 export FLAGS_eager_delete_tensor_gb=0.0
 export FLAGS_fraction_of_gpu_memory_to_use=0.98
 export FLAGS_memory_fraction_of_eager_deletion=1.0
+export FLAGS_conv_workspace_size_limit=1500
 
 if [ $# -ne 2 ]; then
   echo "Usage: "
@@ -32,7 +33,7 @@ train(){
    --im_per_batch=${batch_size} \
    --MASK_ON=True > ${log_file} 2>&1 &
   train_pid=$!
-  sleep 240
+  sleep 600
   kill -9 $train_pid
 }
 
