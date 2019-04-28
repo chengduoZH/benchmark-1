@@ -29,6 +29,7 @@ num_gpu_devices=${#arr[*]}
 batch_size=32
 log_file=log_${task}_${index}_${num_gpu_devices}
 
+
 train(){
   echo "Train on ${num_gpu_devices} GPUs"
   echo "current CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES, gpus=$num_gpu_devices, batch_size=$batch_size"
@@ -54,8 +55,16 @@ train(){
        --skip_steps 100 \
        --random_seed 1 > ${log_file} 2>&1 &
   train_pid=$!
+  echo ${train_pid}
+
   sleep 600
-  kill -9 $train_pid
+
+  line=`ps aux | grep ${train_pid} |grep -v "grep"|wc -l`
+  if [ ${line} -gt 0 ];
+  then
+     kill -9 ${train_pid}
+     echo "kill " ${train_pid}
+  fi
 }
 
 infer(){

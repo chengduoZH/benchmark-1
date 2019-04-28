@@ -338,9 +338,14 @@ def train(args):
     else:
         train_exe = exe
 
-    train_fetch_list = [
-        train_cost.name, train_acc1.name, train_acc5.name, global_lr.name
+    train_fetch_vars = [
+        train_cost, train_acc1, train_acc5, global_lr
     ]
+    for var in train_fetch_vars:
+        var.persistable=True
+
+    train_fetch_list = [ var.name for var in train_fetch_vars]
+    
     test_fetch_list = [test_cost.name, test_acc1.name, test_acc5.name]
 
     params = models.__dict__[args.model]().params

@@ -43,7 +43,12 @@ train(){
     --batch_size $batch_size > ${log_file} 2>&1 &
   train_pid=$!
   sleep 600
-  kill -9 $train_pid
+
+  line=`ps aux | grep ${train_pid} |grep -v "grep"|wc -l`
+  if [ $line -gt 0 ];
+  then
+     kill -9 $train_pid
+  fi
 }
 
 analysis_times(){

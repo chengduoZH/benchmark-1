@@ -22,7 +22,7 @@ add_arg = functools.partial(add_arguments, argparser=parser)
 # yapf: disable
 add_arg('batch_size',        int,   1,          "Minibatch size.")
 add_arg('epoch',             int,   2,        "The number of epoched to be trained.")
-add_arg('batch',             int,   100,        ".")
+add_arg('batch',             int,   2000000,        ".")
 add_arg('output',            str,   "./output_0", "The directory the model and the test result to be saved to.")
 add_arg('init_model',        str,   None,       "The init model file of directory.")
 add_arg('save_checkpoints',  bool,  True,       "Whether to save checkpoints.")
@@ -152,7 +152,6 @@ def train(args):
     build_strategy = fluid.BuildStrategy()
     build_strategy.enable_inplace = False
     build_strategy.memory_optimize = False
-    build_strategy.fuse_all_optimizer_ops = True
 
     exec_strategy = fluid.ExecutionStrategy()
     exec_strategy.num_threads = 1

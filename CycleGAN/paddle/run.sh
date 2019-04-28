@@ -28,8 +28,12 @@ train(){
   echo "current CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES, gpus=$num_gpu_devices, batch_size=$batch_size"
   python train.py > ${log_file} 2>&1 &
   train_pid=$!
-  sleep 120
-  kill -9 $train_pid
+  sleep 60
+  line=`ps aux | grep  train_pid |grep -v "grep"|wc -l`
+  if [ $line -gt 1 ]; 
+  then
+     kill -9 $train_pid
+  fi
 }
 
 infer(){

@@ -32,7 +32,7 @@ train(){
       --src_vocab_fpath data/vocab.bpe.32000 \
       --trg_vocab_fpath data/vocab.bpe.32000 \
       --special_token '<s>' '<e>' '<unk>' \
-      --train_file_pattern data/train.tok.clean.bpe.32000.en-de \
+      --train_file_pattern data/train.tok.clean.bpe.32000.en-de.tiny \
       --token_delimiter ' ' \
       --use_token_batch True \
       --batch_size $batch_size \
@@ -61,7 +61,12 @@ train(){
       ckpt_dir 'tmp_ckpts' > ${log_file} 2>&1 &
   train_pid=$!
   sleep 900
-  kill -9 $train_pid
+
+  line=`ps aux | grep ${train_pid} |grep -v "grep"|wc -l`
+  if [ $line -gt 0 ]; 
+  then
+     kill -9 $train_pid
+  fi
 }
 
 infer(){

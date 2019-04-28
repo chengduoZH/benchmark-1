@@ -35,7 +35,6 @@ log_file=${PWD}/log_${task}_bs${batch_size}_${num_gpu_devices}
 train(){
   echo "current CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES, gpus=$num_gpu_devices, batch_size=$batch_size"
   WORK_ROOT=$PWD
-  cd ${PD_MODELS_ROOT}/PaddleCV/image_classification
   python train.py \
      --model=SE_ResNeXt50_32x4d \
      --batch_size=${batch_size} \
@@ -53,8 +52,12 @@ train(){
      --num_epochs=${num_epochs} > ${log_file} 2>&1 &
   train_pid=$!
   sleep 600
-  kill -9 $train_pid
-  cd ${WORK_ROOT}
+
+  line=`ps aux | grep ${train_pid} |grep -v "grep"|wc -l`
+  if [ $line -gt 0 ]; 
+  then
+     kill -9 $train_pid
+  fi
 }
 
 analysis_times(){

@@ -1,6 +1,6 @@
 #!/bin/sh
-export PYTHONPATH=/paddle/zcd_Paddle/build_fast/python
-export CUDA_VISIBLE_DEVICES=6
+#export PYTHONPATH=/paddle/zcd_Paddle/build_fast/python
+#export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 
 if [ $# -lt 2 ]; then
   batch_size=20
