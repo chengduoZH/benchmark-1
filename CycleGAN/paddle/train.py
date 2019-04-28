@@ -150,7 +150,8 @@ def train(args):
     build_strategy = fluid.BuildStrategy()
     build_strategy.enable_inplace = False
     build_strategy.memory_optimize = False
-    
+    build_strategy.fuse_all_optimizer_ops = True
+
     exec_strategy = fluid.ExecutionStrategy()
     exec_strategy.num_threads = 1
     exec_strategy.use_experimental_executor = True
