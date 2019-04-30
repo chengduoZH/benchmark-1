@@ -26,6 +26,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 add_arg = functools.partial(add_arguments, argparser=parser)
 # yapf: disable
 add_arg('batch_size',       int,   256,                  "Minibatch size.")
+add_arg('iteration',        int,   1080,                  "Minibatch size.")
 add_arg('use_gpu',          bool,  True,                 "Whether to use GPU or not.")
 add_arg('total_images',     int,   1281167,              "Training image number.")
 add_arg('num_epochs',       int,   120,                  "number of epochs.")
@@ -384,6 +385,9 @@ def train(args):
                           .format(pass_id, batch_id, "%.5f"%loss, "%.5f"%acc1, "%.5f"%acc5, "%.5f" %
                                   lr, "%2.2f sec" % period))
                     sys.stdout.flush()
+                if batch_id >= args.iteration:
+                    train_py_reader.reset()
+                    return 
                 batch_id += 1
         except fluid.core.EOFException:
             train_py_reader.reset()

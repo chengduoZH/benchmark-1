@@ -45,6 +45,7 @@ train(){
        --vocab_path ${BERT_BASE_PATH}/vocab.txt \
        --checkpoints ${CKPT_PATH} \
        --save_steps 1000 \
+       --shuffle false \
        --weight_decay  0.01 \
        --warmup_proportion 0.1 \
        --validation_steps 1000 \

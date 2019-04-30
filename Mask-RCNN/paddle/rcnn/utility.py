@@ -139,7 +139,8 @@ def parse_args():
         " GPUs in one mini-batch. If True, image shape is the same in one mini-batch.")
     #SOLVER
     add_arg('learning_rate',    float,  0.01,     "Learning rate.")
-    add_arg('max_iter',         int,    180000,   "Iter number.")
+    #add_arg('max_iter',         int,    180000,   "Iter number.")
+    add_arg('max_iter',         int,    1800,   "Iter number.")
     add_arg('log_window',       int,    20,        "Log smooth window, set 1 for debug, set 20 for train.")
     # RCNN
     # RPN

@@ -118,7 +118,7 @@ def main():
         init_scale = 0.1
         max_grad_norm = 5.0
         epoch_start_decay = 4
-        max_epoch = 13
+        max_epoch = 7 #13
         dropout = 0.0
         lr_decay = 0.5
         base_learning_rate = 1.0
@@ -142,7 +142,7 @@ def main():
         init_scale = 0.04
         max_grad_norm = 10.0
         epoch_start_decay = 14
-        max_epoch = 55
+        max_epoch = 10 #55
         dropout = 0.65
         lr_decay = 1.0 / 1.15
         base_learning_rate = 1.0

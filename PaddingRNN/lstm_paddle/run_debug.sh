@@ -1,6 +1,6 @@
 #!/bin/sh
-export PYTHONPATH=/paddle/zcd_Paddle/build_fast/python
-export CUDA_VISIBLE_DEVICES=6
+#export PYTHONPATH=/paddle/zcd_Paddle/build_fast/python
+#export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 
 if [ $# -lt 2 ]; then
   batch_size=20
@@ -31,4 +31,8 @@ export FLAGS_eager_delete_tensor_gb=0.0
 # can run when batch_size = 5365
 export FLAGS_memory_fraction_of_eager_deletion=1.0
 
-python train.py --data_path data/simple-examples/data/ --model_type $model_type --use_gpu True --batch_size $batch_size --enable_ce 
+python train.py --data_path data/simple-examples/data/ \
+                --model_type $model_type \
+                --use_gpu True \
+                --batch_size $batch_size \
+                --enable_ce 

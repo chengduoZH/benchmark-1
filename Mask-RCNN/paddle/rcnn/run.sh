@@ -32,9 +32,9 @@ train(){
    --pretrained_model=../imagenet_resnet50_fusebn/ \
    --data_dir=./dataset/coco \
    --im_per_batch=${base_batch_size} \
-   --MASK_ON=True > ${log_file} 2>&1 &
+   --MASK_ON=True > ${log_file} 2>&1 # &
   train_pid=$!
-  sleep 600
+  # sleep 600
 
   line=`ps aux | grep ${train_pid} |grep -v "grep"|wc -l`
   if [ $line -gt 0 ]; 

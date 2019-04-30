@@ -30,7 +30,7 @@ python -c 'import paddle;  print(paddle.__git_commit__)'
 
 
 fluid_path=/ssd1/benchmark
-log_path=/ssd1/benchmark/zcd_logs
+log_path=/ssd1/benchmark/zcd_logs_test_fuse_opts
 mkdir -p $log_path
 data_path=/ssd1/benchmark_data/dataset
 prepare_path=/ssd1/benchmark_data/prepare
@@ -50,8 +50,7 @@ cycle_gan(){
     ln -s ${data_path}/horse2zebra/ ${cur_model_path}/data
     echo "index is speed, begin"
     CUDA_VISIBLE_DEVICES=7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_1gpus 2>&1
-    if [ check_memory==true ]
-    then
+    if check_memory; then
     #sleep 10
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_1gpus 2>&1
@@ -73,14 +72,13 @@ deeplab(){
     #sleep 60
     echo "index is speed, 4gpus, begin"
     CUDA_VISIBLE_DEVICES=4,5,6,7 bash run.sh speed > ${log_path}/${FUNCNAME}_speed_4gpus 2>&1
-    if [ check_memory==true ]
-    then
+    if check_memory; then
         #sleep 60
         echo "index is mem, 1gpus, begin"
         #CUDA_VISIBLE_DEVICES=7 bash run.sh mem > ${log_path}/${FUNCNAME}_mem_1gpus 2>&1
         #sleep 60
         echo "index is mem, 4gpus, begin"
-        CUDA_VISIBLE_DEVICES=7,1,2,3 bash run.sh mem > ${log_path}/${FUNCNAME}_mem_4gpus 2>&1
+        CUDA_VISIBLE_DEVICES=0,1,2,3 bash run.sh mem > ${log_path}/${FUNCNAME}_mem_4gpus 2>&1
     fi
 }
 
@@ -97,9 +95,8 @@ se_resnext50(){
     CUDA_VISIBLE_DEVICES=7 bash run.sh speed 32 > ${log_path}/${FUNCNAME}_speed_1gpus 2>&1
     #sleep 60
     echo "index is speed, 8gpus, begin"
-    CUDA_VISIBLE_DEVICES=7,1,2,3,4,5,6,7 bash run.sh speed 32 > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
-    if [ check_memory==true ]
-    then
+    CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh speed 32 > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
+    if check_memory; then
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh mem > ${log_path}/${FUNCNAME}_mem 2>&1
         echo "index is mem, 8gpus, begin"
@@ -133,10 +130,9 @@ mask_rcnn(){
     CUDA_VISIBLE_DEVICES=7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_1gpus 2>&1
     #sleep 60
     echo "index is speed, 8gpus, begin"
-    CUDA_VISIBLE_DEVICES=7,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
+    CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
     #sleep 60
-    if [ check_memory==true ]
-    then
+    if check_memory; then
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem 2>&1
         echo "index is mem, 8gpus, begin"
@@ -157,9 +153,8 @@ bert(){
     CUDA_VISIBLE_DEVICES=7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_1gpus 2>&1
     #sleep 60
     echo "index is speed, 8gpus, begin"
-    CUDA_VISIBLE_DEVICES=7,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
-    if [ check_memory==true ]
-    then
+    CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
+    if check_memory; then
         #sleep 60
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_1gpus 2>&1
@@ -181,15 +176,14 @@ transformer(){
     CUDA_VISIBLE_DEVICES=7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_1gpus 2>&1
     #sleep 60
     echo "index is speed, 8gpus, begin"
-    CUDA_VISIBLE_DEVICES=7,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
-    if [ check_memory==true ]
-    then
+    CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
+    if check_memory; then
         #sleep 60
         echo "index is mem, 1gpus, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_1gpus 2>&1
         #sleep 60
         echo "index is mem, 8gpus, begin"
-        CUDA_VISIBLE_DEVICES=7,1,2,3,4,5,6,7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_8gpus 2>&1
+        CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_8gpus 2>&1
     fi
 }
 
@@ -209,8 +203,7 @@ ddpg_deep_explore(){
     fi
     echo "index is speed, begin"
     CUDA_VISIBLE_DEVICES=7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_1gpus 2>&1
-    if [ check_memory==true ]
-    then
+    if check_memory; then
         #sleep 60
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_1gpus 2>&1
@@ -229,8 +222,7 @@ paddingrnn(){
     CUDA_VISIBLE_DEVICES=7 bash run.sh speed small ${batch_size} > ${log_path}/${FUNCNAME}_speed_1gpus_small 2>&1
     echo "index is speed, 1gpus, large model, begin"
     CUDA_VISIBLE_DEVICES=7 bash run.sh speed large ${batch_size} > ${log_path}/${FUNCNAME}_speed_1gpus_large 2>&1
-    if [ check_memory==true ]
-    then
+    if check_memory; then
         #sleep 60
         echo "index is mem, 1gpus, small model, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh mem small ${batch_size} > ${log_path}/${FUNCNAME}_mem_1gpus_small 2>&1
@@ -272,15 +264,14 @@ yolov3(){
     CUDA_VISIBLE_DEVICES=7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_1gpus 2>&1
     #sleep 60
     echo "index is speed, 8gpus, begin"
-    CUDA_VISIBLE_DEVICES=7,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
-    if [ check_memory==true ]
-    then
+    CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train speed > ${log_path}/${FUNCNAME}_speed_8gpus 2>&1
+    if check_memory; then
         #sleep 60
         echo "index is mem, 1gpus, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_1gpus 2>&1
         #sleep 60
         echo "index is mem, 8gpus, begin"
-        CUDA_VISIBLE_DEVICES=7,1,2,3,4,5,6,7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_8gpus 2>&1
+        CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_8gpus 2>&1
     fi
 }
 
@@ -289,14 +280,14 @@ then
     for model_name in ${cur_model_list[@]}
     do
         echo "=====================${model_name} run begin=================="
-        $model_name true
+        $model_name false
         #sleep 10
         echo "*********************${model_name} run end!!******************"
     done
 elif echo ${cur_model_list[@]} | grep -w $model &>/dev/null
 then
     echo "=====================${model} run begin=================="
-    $model true
+    $model false
     #sleep 10
     echo "*********************${model} run end!!******************"
 else

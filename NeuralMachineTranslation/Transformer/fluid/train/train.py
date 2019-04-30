@@ -137,7 +137,7 @@ def parse_args():
     parser.add_argument(
         "--run_epoch",
         type=int,
-        default=100,
+        default=1,
         help="")
 
     args = parser.parse_args()

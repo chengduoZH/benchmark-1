@@ -201,7 +201,7 @@ def train():
         train_loop_pyreader()
     else:
         train_loop()
-    save_model('model_final')
+    #save_model('model_final')
 
 
 if __name__ == '__main__':

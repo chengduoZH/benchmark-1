@@ -1,16 +1,16 @@
 #!bin/bash
 set -xe
-export CUDA_VISIBLE_DEVICES=6
-export PYTHONPATH=/paddle/dev_Paddle/build_fast/python/
+export CUDA_VISIBLE_DEVICES=7
+export PYTHONPATH=/paddle/zcd_Paddle/build_fast/python/
 export FLAGS_cudnn_deterministic=true
 #export FLAGS_enable_parallel_graph=1
 #export FLAGS_eager_delete_tensor_gb=0.0
 #export FLAGS_fraction_of_gpu_memory_to_use=0.98
 #export FLAGS_memory_fraction_of_eager_deletion=1.0
-export FLAGS_eager_delete_scope=false
+#export FLAGS_eager_delete_scope=false
 task="BERT"
 index=""
-
+export GLOG_vmodule=parallel_executor=1
 cd ./LARK_Paddle_BERT/BERT/
 BERT_BASE_PATH=/ssd1/bert_data
 TASK_NAME='XNLI'
@@ -37,6 +37,7 @@ python -u run_classifier_profile.py --task_name ${TASK_NAME} \
      --vocab_path ${BERT_BASE_PATH}/chinese_L-12_H-768_A-12/vocab.txt \
      --checkpoints ${CKPT_PATH} \
      --save_steps 1000 \
+     --shuffle false \
      --weight_decay  0.01 \
      --warmup_proportion 0.1 \
      --validation_steps 1000 \

@@ -40,9 +40,9 @@ train(){
     --model_type $model_type \
     --use_gpu True \
     --enable_ce \
-    --batch_size $batch_size > ${log_file} 2>&1 &
+    --batch_size $batch_size > ${log_file} 2>&1 #&
   train_pid=$!
-  sleep 600
+  #sleep 600
 
   line=`ps aux | grep ${train_pid} |grep -v "grep"|wc -l`
   if [ $line -gt 0 ];

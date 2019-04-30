@@ -49,9 +49,9 @@ train(){
      --lr_strategy=cosine_decay \
      --lr=0.1 \
      --l2_decay=1.2e-4 \
-     --num_epochs=${num_epochs} > ${log_file} 2>&1 &
+     --num_epochs=${num_epochs} > ${log_file} 2>&1 #&
   train_pid=$!
-  sleep 600
+  # sleep 600
 
   line=`ps aux | grep ${train_pid} |grep -v "grep"|wc -l`
   if [ $line -gt 0 ]; 
