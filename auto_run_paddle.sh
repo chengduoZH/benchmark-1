@@ -102,6 +102,8 @@ se_resnext50(){
     then
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh mem > ${log_path}/${FUNCNAME}_mem 2>&1
+        echo "index is mem, 8gpus, begin"
+        CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh mem 32 > ${log_path}/${FUNCNAME}_mem_8gpus 2>&1
     fi
 }
 
@@ -137,6 +139,8 @@ mask_rcnn(){
     then
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem 2>&1
+        echo "index is mem, 8gpus, begin"
+        CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_8gpus 2>&1
     fi
 }       
 
@@ -159,6 +163,9 @@ bert(){
         #sleep 60
         echo "index is mem, begin"
         CUDA_VISIBLE_DEVICES=7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_1gpus 2>&1
+        #sleep 60
+        echo "index is mem, 8gpus, begin"
+        CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 bash run.sh train mem > ${log_path}/${FUNCNAME}_mem_8gpus 2>&1
     fi
 }
 
@@ -251,8 +258,8 @@ yolov3(){
         echo "cocoapi installed"
     fi
     #yolov3 的模型代码还在models
-    #git clone https://github.com/PaddlePaddle/models.git
-    cd models/PaddleCV/yolov3/
+    # git clone https://github.com/PaddlePaddle/models.git
+    # cd models/PaddleCV/yolov3/
 
     #sh ./weights/download.sh
     ln -s ${prepare_path}/yolov3/yolov3 ./weights/yolov3
