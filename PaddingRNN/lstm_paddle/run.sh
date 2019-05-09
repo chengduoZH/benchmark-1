@@ -4,7 +4,7 @@ export FLAGS_fraction_of_gpu_memory_to_use=1.0
 
 # Enable gc when this flag is larger than or equal to 0. 
 # If you change this value, please make sure that the large
-# model can run when batch_size = 2100; and the small model
+# model can run when batch_size = 1750; and the small model
 # can run when batch_size = 5365
 export FLAGS_eager_delete_tensor_gb=0.0
 
@@ -12,9 +12,9 @@ export FLAGS_eager_delete_tensor_gb=0.0
 # GC is disabled when this flag is 0; and full gc would be
 # performed when this flag is 1. Must be inside [0, 1].
 # If you change this value, please make sure that the large
-# model can run when batch_size = 2100; and the small model
+# model can run when batch_size = 1750; and the small model
 # can run when batch_size = 5365
-export FLAGS_memory_fraction_of_eager_deletion=1.0
+export FLAGS_memory_fraction_of_eager_deletion=0.5
 
 if [ $# -ne 3 ]; then
   echo "Usage: "
@@ -25,6 +25,10 @@ fi
 task=$1
 model_type=$2
 base_batchsize=$3
+
+if [ ${model_type} == "large" ]; then
+  export FLAGS_memory_fraction_of_eager_deletion=1.0
+fi
 
 devices_str=${CUDA_VISIBLE_DEVICES//,/ }
 gpu_devices=($devices_str)
