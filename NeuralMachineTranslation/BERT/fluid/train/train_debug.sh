@@ -1,10 +1,10 @@
 #!bin/bash
 set -xe
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 export PYTHONPATH=/paddle/zcd_Paddle/build_fast/python/
 export FLAGS_cudnn_deterministic=true
-export FLAGS_enable_parallel_graph=1
+export FLAGS_enable_parallel_graph=0
 #export FLAGS_eager_delete_tensor_gb=0.0
 #export FLAGS_fraction_of_gpu_memory_to_use=0.98
 #export FLAGS_memory_fraction_of_eager_deletion=1.0
@@ -26,6 +26,12 @@ echo "PYTHONPATH:" $PYTHONPATH
 
 batch_size=32
 
+PROFILE=0
+if [ $1 = "profile" ]; then
+  PROFILE=1
+  echo "profile..."
+fi
+
 python -u run_classifier.py --task_name ${TASK_NAME} \
      --use_cuda true \
      --do_train true \
@@ -38,6 +44,8 @@ python -u run_classifier.py --task_name ${TASK_NAME} \
      --vocab_path ${BERT_BASE_PATH}/vocab.txt \
      --checkpoints ${CKPT_PATH} \
      --save_steps 1000 \
+     --use_fast_executor true \
+     --profile $PROFILE \
      --shuffle false \
      --weight_decay  0.01 \
      --warmup_proportion 0.1 \

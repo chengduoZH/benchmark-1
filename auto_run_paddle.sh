@@ -27,6 +27,13 @@ export https_proxy=http://172.19.57.45:3128
 export PYTHONPATH=/paddle/zcd_Paddle/build_fast/python
 python -c 'import paddle;  print(paddle.__version__)'
 python -c 'import paddle;  print(paddle.__git_commit__)'
+echo "CUDA_VISIBLE_DEVICES: " $CUDA_VISIBLE_DEVICES
+echo "FLAGS_enable_parallel_graph: " $FLAGS_enable_parallel_graph
+python -c 'import paddle;  print(paddle.__version__)'
+python -c 'import paddle;  print(paddle.__git_commit__)'
+echo "PYTHONPATH:" $PYTHONPATH
+
+
 
 
 fluid_path=/ssd1/benchmark
@@ -34,6 +41,7 @@ log_path=/ssd1/benchmark/zcd_logs_test_fuse_opts
 mkdir -p $log_path
 data_path=/ssd1/benchmark_data/dataset
 prepare_path=/ssd1/benchmark_data/prepare
+
 
 
 cd ${fluid_path}

@@ -204,7 +204,7 @@ def main():
             value=1.0,
             dtype='float32',
             persistable=True)
-
+        #fluid.layers.Print(learning_rate)
         optimizer = fluid.optimizer.SGD(learning_rate=learning_rate)
         optimizer.minimize(loss)
 
@@ -216,7 +216,7 @@ def main():
     exec_strategy.num_threads = fluid.core.get_cuda_device_count()
     #exec_strategy.use_experimental_executor = True
     exec_strategy.num_iteration_per_drop_scope = 100
-
+    
     build_strategy = fluid.BuildStrategy()
     #if args.memory_optimize:
     if True:
@@ -389,7 +389,7 @@ def main():
                                      feed=input_data_feed,
                                      fetch_list=[
                                          loss.name, last_hidden.name,
-                                         last_cell.name, "learning_rate"
+                                         last_cell.name, learning_rate.name, # "learning_rate"
                                      ],
                                      use_program_cache=True)
 
